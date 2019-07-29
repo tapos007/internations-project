@@ -39,7 +39,7 @@ class RegistrationService
         throw new AppErrorException("something wrong");
     }
 
-    public function addGroup(\Illuminate\Http\Request $request, $id)
+    public function addGroupUser(\Illuminate\Http\Request $request, $id)
     {
         $request->validate([
             'role_name' => 'required|exists:roles,name'
@@ -56,7 +56,7 @@ class RegistrationService
 
     }
 
-    public function deleteGroup(\Illuminate\Http\Request $request, $id)
+    public function deleteGroupUser(\Illuminate\Http\Request $request, $id)
     {
         $request->validate([
             'role_name' => 'required|exists:roles,name'
@@ -67,5 +67,29 @@ class RegistrationService
             throw new AppErrorException("you are not in this group");
         }
         $user->removeRole($request->role_name);
+    }
+
+    public function addgroup(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'role_name' => 'required|unique:roles,name',
+        ]);
+
+        Role::create(['name' => $request->role_name]);
+    }
+
+    public function deletegroup(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'role_name' => 'required|exists:roles,name',
+        ]);
+
+        $role = Role::with('users')->where('name',$request->role_name)->first();
+        if(count($role->users)){
+            throw new AppErrorException("already user exists in this group");
+        }
+        $role->delete();
+       // $countOfUserInRole =
+
     }
 }
