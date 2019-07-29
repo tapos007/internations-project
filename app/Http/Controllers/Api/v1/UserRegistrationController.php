@@ -44,5 +44,11 @@ class UserRegistrationController extends Controller
         return $this->showMessage("user added group successfully");
     }
 
+    public function deletegroup(Request $request,$id)
+    {
+        $this->service->deleteGroup($request,$id);
+        return $this->showMessage("user delete from group successfully");
+    }
+
 
 }
