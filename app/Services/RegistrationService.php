@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Exceptions\AppErrorException;
 use App\User;
+use Spatie\Permission\Models\Role;
 
 class RegistrationService
 {
@@ -36,5 +37,22 @@ class RegistrationService
             return true;
         }
         throw new AppErrorException("something wrong");
+    }
+
+    public function addGroup(\Illuminate\Http\Request $request, $id)
+    {
+        $request->validate([
+            'role_name' => 'required|exists:roles,name'
+        ]);
+
+        $user = User::findOrFail($id);
+
+        if($user->hasRole($request->role_name)){
+            throw new AppErrorException("you are already in this group");
+        }
+        $user->assignRole($request->role_name);
+
+
+
     }
 }

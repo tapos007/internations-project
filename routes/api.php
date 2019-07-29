@@ -20,6 +20,7 @@ Route::group(['prefix' => 'v1'], function ()  {
         Route::group(['middleware'=>'role:admin'],function (){
             Route::post('newuser', 'Api\v1\UserRegistrationController@create')->name('createuser');
             Route::delete('user/{id}', 'Api\v1\UserRegistrationController@delete')->name('deleteuser');
+            Route::post('user/{id}/addgroup', 'Api\v1\UserRegistrationController@addgroup')->name('addgroupuser');
         });
 
     });
