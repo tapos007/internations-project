@@ -32,5 +32,11 @@ class UserRegistrationController extends Controller
         return $this->showOne($user,201);
     }
 
+    public function delete($id)
+    {
+        $this->service->delete($id);
+        return $this->showMessage("user deleted successfully");
+    }
+
 
 }

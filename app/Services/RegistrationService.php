@@ -28,4 +28,13 @@ class RegistrationService
         throw new AppErrorException("something wrong for user registration");
 
     }
+
+    public function delete($id)
+    {
+        $user = User::findOrfail($id);
+        if($user->delete()){
+            return true;
+        }
+        throw new AppErrorException("something wrong");
+    }
 }
