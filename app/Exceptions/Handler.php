@@ -99,9 +99,6 @@ class Handler extends ExceptionHandler
                 return  $this->errorResponse($exception->getMessage(),404);
             }
 
-            if($exception instanceof UserErrorException){
-                return  $this->errorResponse($exception->getMessage(),455);
-            }
 
             if($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException){
                 return  $this->errorResponse($exception->getMessage(),404);

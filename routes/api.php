@@ -13,6 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::group(['prefix' => 'v1'], function ()  {
+    Route::post('token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken')->name('oauth.token');
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::group(['middleware'=>'role:admin'],function (){
+            Route::post('newuser', 'Api\v1\UserRegistrationController@create')->name('createuser');
+        });
+
+    });
 });
